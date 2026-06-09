@@ -1,0 +1,60 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.register-link {
+  color:rgb(250, 247, 247);
+  text-decoration: none;
+  margin-left: 5px;
+}
+.container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("https://tse1.mm.bing.net/th/id/OIP.Lam4LvyQUovNHDpZFzCrAAHaEo?pid=Api&P=0&h=180");
+  background-size: cover;
+}
+
+.login-box {
+  width: 350px;
+  padding: 30px;
+  border:10px #fbf9f9;
+  background-image: url("");
+  backdrop-filter: blur(10px);
+  border-radius: 50px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  color: #f6f3f3;
+}
+
+.login-box h1 {
+  margin-bottom: 20px;
+}
+
+.login-box input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 3px solid #eb0707;
+  border-radius: 50px;
+}
+
+.login-box button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  background: #007bff;
+  color: white;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+.login-box button:hover {
+  background: #0056b3;
+}
+
+.login-box p {
+  margin-top: 15px;
+}
