@@ -115,19 +115,19 @@ export const login = async (req, res) => {
 
         // console.log(user);
 
-        if (!user) {
+        if (!user || user.password !== password) {
             return res.status(404).json({
                 success: false,
                 message: "Username not found"
             });
         }
 
-        if (user.password !== password) {
-            return res.status(401).json({
-                success: false,
-                message: "Incorrect password"
-            });
-        }
+        // if (user.password !== password) {
+        //     return res.status(401).json({
+        //         success: false,
+        //         message: "Incorrect password"
+        //     });
+        // }
         console.log("========== LOGIN SUCCESS ==========");
         console.log("Name      :", user.name);
         console.log("Username  :", user.username);
