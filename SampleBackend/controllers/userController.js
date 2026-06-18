@@ -25,6 +25,17 @@ export const signup = async (req, res) => {
                 message: "Fill all required fields"
             });
         }
+        console.log("===== BEFORE PASSWORD CHECK =====");
+        console.log("Password:", password);
+        console.log("Length:", password.length);
+
+
+        if (password.length < 8) {
+            return res.status(400).json({
+                success: false,
+                message: "Password must be at least 8 characters long."
+            });
+        }
 
         const user = await User.create({
             name,
@@ -52,8 +63,14 @@ export const signup = async (req, res) => {
 
     }
     catch (error) {
+
         console.log(error);
-        res.status(500).json({ success: false, message: error, })
+
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+
     }
 }
 
