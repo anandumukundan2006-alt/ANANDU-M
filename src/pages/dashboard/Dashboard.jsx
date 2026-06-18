@@ -1,20 +1,19 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import authService from "../../services/authService";
 import "./Dashboard.css";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { toast } from "react-toastify";
 import {
-    PieChart,
-    Pie,
-    Cell,
     ResponsiveContainer,
-    Tooltip,
-    Legend,
-    BarChart,
-    Bar,
+    AreaChart,
+    Area,
     XAxis,
     YAxis,
-    CartesianGrid
+    CartesianGrid,
+    Tooltip,
+    PieChart,
+    Pie,
+    Cell
 } from "recharts";
 
 function Dashboard() {
@@ -43,6 +42,31 @@ function Dashboard() {
     const [editId, setEditId] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [showModal, setShowModal] = useState(false);
+    const today = new Date();
+
+    const lastYear = new Date();
+    lastYear.setFullYear(today.getFullYear() - 1);
+
+    const [fromDate, setFromDate] = useState(
+        lastYear.toISOString().split("T")[0]
+    );
+
+    const [toDate, setToDate] = useState(
+        today.toISOString().split("T")[0]
+    );
+
+    const [analyticsCategory, setAnalyticsCategory] = useState("All");
+
+    const [analyticsData, setAnalyticsData] = useState({
+        monthlyData: [],
+        categoryData: []
+    });
+    const titleRef = useRef(null);
+    const amountRef = useRef(null);
+    const typeRef = useRef(null);
+    const categoryRef = useRef(null);
+    const descriptionRef = useRef(null);
+    const dateRef = useRef(null);
 
 
 
@@ -54,6 +78,19 @@ function Dashboard() {
         loadCategories();
 
     }, []);
+
+    useEffect(() => {
+
+        loadAnalytics();
+
+    }, [fromDate, toDate, analyticsCategory]);
+    useEffect(() => {
+        if (showModal) {
+            setTimeout(() => {
+                titleRef.current?.focus();
+            }, 100);
+        }
+    }, [showModal]);
 
     const loadDashboard = async () => {
 
@@ -85,6 +122,28 @@ function Dashboard() {
 
     };
 
+    const loadAnalytics = async () => {
+
+        const result = await authService.getAnalytics(
+            fromDate,
+            toDate,
+            analyticsCategory
+        );
+
+        if (result.success) {
+
+            setAnalyticsData({
+                monthlyData: result.monthlyData,
+                categoryData: result.categoryData
+            });
+
+        } else {
+
+            toast.error(result.message);
+
+        }
+
+    };
 
 
 
@@ -265,16 +324,7 @@ function Dashboard() {
 
     };
 
-    const chartData = [
-        {
-            name: "Income",
-            value: dashboard.totalIncome,
-        },
-        {
-            name: "Expense",
-            value: dashboard.totalExpense,
-        },
-    ];
+    const chartData = analyticsData.categoryData;
 
 
     const barData = [
@@ -288,7 +338,16 @@ function Dashboard() {
         },
     ];
 
-    const COLORS = ["#22c55e", "#ef4444"];
+    const COLORS = [
+        "#3b82f6",
+        "#22c55e",
+        "#f59e0b",
+        "#ef4444",
+        "#8b5cf6",
+        "#06b6d4",
+        "#ec4899",
+        "#84cc16"
+    ];
 
     const user = JSON.parse(localStorage.getItem("user"));
 
@@ -354,11 +413,66 @@ function Dashboard() {
 
             <hr />
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <div className="analytics-section">
 
                 <div className="analytics-card">
 
-                    <h2>📊 Expense Analytics</h2>
+                    <div className="analytics-header">
+
+                        <h2>🥧 Expense by Category</h2>
+
+                        <div className="analytics-filters">
+
+                            <input
+                                type="date"
+                                value={fromDate}
+                                onChange={(e) => setFromDate(e.target.value)}
+                            />
+
+                            <input
+                                type="date"
+                                value={toDate}
+                                onChange={(e) => setToDate(e.target.value)}
+                            />
+
+                            <select
+                                value={analyticsCategory}
+                                onChange={(e) => setAnalyticsCategory(e.target.value)}
+                            >
+
+                                <option value="All">All Categories</option>
+
+                                {categories.map((category) => (
+
+                                    <option
+                                        key={category._id}
+                                        value={category.name}
+                                    >
+                                        {category.name}
+                                    </option>
+
+                                ))}
+
+                            </select>
+
+                        </div>
+
+                    </div>
 
                     <div style={{ width: "100%", height: "280px" }}>
 
@@ -388,7 +502,7 @@ function Dashboard() {
 
                                 <Tooltip />
 
-                                <Legend />
+
 
                             </PieChart>
 
@@ -403,29 +517,63 @@ function Dashboard() {
 
                 <div className="analytics-card">
 
-                    <h2>📈 Income vs Expense</h2>
+                    <div className="analytics-header">
 
-                    <div style={{ width: "100%", height: "300px" }}>
+                        <h2>📈 Daily Expense Trend</h2>
 
-                        <ResponsiveContainer>
+                        <div className="analytics-filters">
 
-                            <BarChart
-                                data={barData}
+                            <input
+                                type="date"
+                                value={fromDate}
+                                onChange={(e) => setFromDate(e.target.value)}
+                            />
+
+                            <input
+                                type="date"
+                                value={toDate}
+                                onChange={(e) => setToDate(e.target.value)}
+                            />
+
+                            <select
+                                value={analyticsCategory}
+                                onChange={(e) => setAnalyticsCategory(e.target.value)}
+                            >
+                                <option value="All">All Categories</option>
+
+                                {categories.map((category) => (
+                                    <option
+                                        key={category._id}
+                                        value={category.name}
+                                    >
+                                        {category.name}
+                                    </option>
+                                ))}
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <div style={{ width: "100%", height: "320px" }}>
+
+                        <ResponsiveContainer width="100%" height="100%">
+
+                            <AreaChart
+                                data={analyticsData.monthlyData}
                                 margin={{
                                     top: 20,
                                     right: 20,
                                     left: 0,
-                                    bottom: 5,
+                                    bottom: 5
                                 }}
                             >
 
-                                <CartesianGrid
-                                    strokeDasharray="3 3"
-                                    stroke="#334155"
-                                />
+                                <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
 
                                 <XAxis
-                                    dataKey="name"
+                                    dataKey="day"
                                     stroke="#ffffff"
                                 />
 
@@ -434,23 +582,50 @@ function Dashboard() {
                                 />
 
                                 <Tooltip
-                                    formatter={(value) => [`₹${value}`, "Amount"]}
+                                    formatter={(value) => [`₹${value}`, "Expense"]}
                                 />
 
-                                <Legend />
 
-                                <Bar
-                                    dataKey="amount"
-                                    radius={[10, 10, 0, 0]}
+                                <Area
+                                    type="monotone"
+                                    dataKey="expense"
+                                    stroke="#3b82f6"
+                                    strokeWidth={3}
+                                    fill="url(#expenseGradient)"
+                                    dot={{ r: 5 }}
+                                    activeDot={{ r: 8 }}
+                                />
+
+
+
+
+                            </AreaChart>
+
+                            <defs>
+
+                                <linearGradient
+                                    id="expenseGradient"
+                                    x1="0"
+                                    y1="0"
+                                    x2="0"
+                                    y2="1"
                                 >
 
-                                    <Cell fill="#22c55e" />
+                                    <stop
+                                        offset="5%"
+                                        stopColor="#3b82f6"
+                                        stopOpacity={0.8}
+                                    />
 
-                                    <Cell fill="#ef4444" />
+                                    <stop
+                                        offset="95%"
+                                        stopColor="#3b82f6"
+                                        stopOpacity={0}
+                                    />
 
-                                </Bar>
+                                </linearGradient>
 
-                            </BarChart>
+                            </defs>
 
                         </ResponsiveContainer>
 
@@ -473,7 +648,6 @@ function Dashboard() {
 
 
 
-
             <hr />
 
             <div className="table-header">
@@ -484,7 +658,27 @@ function Dashboard() {
 
                     <button
                         className="add-btn"
-                        onClick={() => setShowModal(true)}
+                        onClick={() => {
+
+                            setIsEditing(false);
+
+                            setEditId(null);
+
+                            setTitle("");
+
+                            setAmount("");
+
+                            setType("Income");
+
+                            setCategory("");
+
+                            setDescription("");
+
+                            setDate(new Date().toISOString().split("T")[0]);
+
+                            setShowModal(true);
+
+                        }}
                     >
                         +
                     </button>
@@ -664,30 +858,54 @@ function Dashboard() {
                         <div className="form-grid">
 
                             <input
+                                ref={titleRef}
                                 type="text"
                                 placeholder="Title"
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter") {
+                                        amountRef.current.focus();
+                                    }
+                                }}
                             />
 
                             <input
+                                ref={amountRef}
                                 type="number"
                                 placeholder="Amount"
                                 value={amount}
                                 onChange={(e) => setAmount(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter") {
+                                        typeRef.current.focus();
+                                    }
+                                }}
                             />
 
                             <select
+                                ref={typeRef}
                                 value={type}
                                 onChange={(e) => setType(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter") {
+                                        categoryRef.current.focus();
+                                    }
+                                }}
                             >
                                 <option value="Income">Income</option>
                                 <option value="Expense">Expense</option>
                             </select>
 
                             <select
+                                ref={categoryRef}
                                 value={category}
                                 onChange={(e) => setCategory(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter") {
+                                        descriptionRef.current.focus();
+                                    }
+                                }}
                             >
                                 <option value="">Select Category</option>
 
@@ -711,18 +929,36 @@ function Dashboard() {
 
 
                         <input
+                            ref={descriptionRef}
                             className="full-width"
                             type="text"
                             placeholder="Description"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    dateRef.current.focus();
+                                }
+                            }}
                         />
 
                         <input
+                            ref={dateRef}
                             className="full-width"
                             type="date"
                             value={date}
                             onChange={(e) => setDate(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+
+                                    if (isEditing) {
+                                        handleUpdateTransaction();
+                                    } else {
+                                        handleAddTransaction();
+                                    }
+
+                                }
+                            }}
                         />
 
 

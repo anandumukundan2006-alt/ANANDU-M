@@ -181,4 +181,34 @@ authService.getCategories = async () => {
 
 };
 
+
+// ================= ANALYTICS =================
+
+authService.getAnalytics = async (
+    fromDate,
+    toDate,
+    category
+) => {
+
+    try {
+
+        const user = JSON.parse(localStorage.getItem("user"));
+        console.log(user._id);
+        console.log(fromDate);
+        console.log(toDate);
+        console.log(category);
+        const response = await api.get(
+            `/analytics?userId=${user._id}&fromDate=${fromDate}&toDate=${toDate}&category=${category}`
+        );
+
+        return response.data;
+
+    } catch (err) {
+
+        return err.response.data;
+
+    }
+
+};
+
 export default authService;

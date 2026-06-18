@@ -11,358 +11,200 @@ body {
     background: #07111f;
 }
 
-/* Dashboard */
-
 .dashboard {
-
     min-height: 100vh;
-
     background: linear-gradient(135deg, #08111f, #101b34, #162542);
-
     color: white;
-
     padding: 35px;
-
 }
 
-/* Header */
-
 .dashboard-header {
-
     margin-bottom: 35px;
-
 }
 
 .dashboard-header h1 {
-
     font-size: 38px;
-
     font-weight: 700;
-
 }
 
 .dashboard-header p {
-
     color: #9ca3af;
-
     margin-top: 8px;
-
 }
 
-/* Summary Cards */
-
 .summary-cards {
-
     display: grid;
-
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-
     gap: 20px;
-
     margin-bottom: 40px;
-
 }
 
 .card {
-
     background: rgba(255, 255, 255, .08);
-
     backdrop-filter: blur(18px);
-
     border: 1px solid rgba(255, 255, 255, .1);
-
     border-radius: 20px;
-
     padding: 25px;
-
     transition: .35s;
-
     box-shadow: 0 10px 30px rgba(0, 0, 0, .3);
-
 }
 
 .card:hover {
-
     transform: translateY(-8px);
-
     box-shadow: 0 20px 40px rgba(0, 0, 0, .45);
-
 }
 
 .card h2 {
-
     font-size: 17px;
-
     color: #cbd5e1;
-
     margin-bottom: 15px;
-
 }
 
 .card h3 {
-
     font-size: 30px;
-
     font-weight: 700;
-
     color: #38bdf8;
-
 }
 
-/* Analytics */
-
 .analytics-section {
-
     display: grid;
-
     grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-
     gap: 25px;
-
     margin: 35px 0;
-
 }
 
 .analytics-card {
-
     background: rgba(255, 255, 255, .08);
-
     backdrop-filter: blur(18px);
-
     border-radius: 20px;
-
     border: 1px solid rgba(255, 255, 255, .08);
-
     padding: 25px;
-
 }
 
 .analytics-card h2 {
-
     margin-bottom: 20px;
-
 }
 
 .chart-placeholder {
-
     height: 250px;
-
     border: 2px dashed rgba(255, 255, 255, .15);
-
     border-radius: 20px;
-
     display: flex;
-
     justify-content: center;
-
     align-items: center;
-
     flex-direction: column;
-
     color: #94a3b8;
-
     font-size: 55px;
-
 }
 
 .chart-placeholder p {
-
     color: white;
-
     font-size: 22px;
-
     margin-top: 10px;
-
 }
 
 .chart-placeholder small {
-
     margin-top: 8px;
-
 }
 
-/* Transaction Form */
-
 .transaction-form {
-
     background: rgba(255, 255, 255, .08);
-
     backdrop-filter: blur(18px);
-
     border-radius: 20px;
-
     border: 1px solid rgba(255, 255, 255, .08);
-
     padding: 30px;
-
     margin-top: 35px;
-
 }
 
 .transaction-form h2 {
-
     margin-bottom: 25px;
-
 }
 
 .transaction-form input,
 .transaction-form select {
-
     width: 100%;
-
     padding: 14px 18px;
-
     margin-bottom: 18px;
-
     background: #1f2d48;
-
     border: none;
-
     border-radius: 12px;
-
     color: white;
-
     font-size: 15px;
-
     outline: none;
-
 }
 
 .transaction-form input::placeholder {
-
     color: #94a3b8;
-
 }
 
 .transaction-form button {
-
     width: 100%;
-
     padding: 15px;
-
     border: none;
-
     border-radius: 12px;
-
     background: linear-gradient(90deg, #7c3aed, #2563eb);
-
     color: white;
-
     font-size: 17px;
-
     font-weight: 600;
-
     cursor: pointer;
-
     transition: .3s;
-
 }
 
 .transaction-form button:hover {
-
     transform: translateY(-3px);
-
     box-shadow: 0 10px 20px rgba(124, 58, 237, .4);
-
 }
 
-/* Search & Filter */
-
 .search-filter-section input {
-
     background: #1f2d48;
-
     border: none;
-
     border-radius: 12px;
-
     padding: 13px;
-
     color: white;
-
     width: 100%;
-
     outline: none;
-
 }
 
 .search-filter-section select {
-
     background: #1f2d48;
-
     border: none;
-
     border-radius: 12px;
-
     padding: 12px;
-
     color: white;
-
     width: 100%;
-
     outline: none;
-
 }
-
-
-/* ================= Search Filter Row ================= */
 
 .search-filter-section {
-
     display: grid;
-
     grid-template-columns: 2fr 1fr 1fr;
-
     gap: 25px;
-
     align-items: center;
-
     margin: 30px 0;
-
 }
 
 .search-filter-section input {
-
     width: 100%;
-
     margin: 0;
-
 }
 
 .search-filter-section select {
-
     width: 100%;
-
     margin: 0;
-
 }
 
-
-
-/* Table */
-
 table {
-
     width: 100%;
-
     border-collapse: collapse;
-
     margin-top: 25px;
-
     overflow: hidden;
-
     border-radius: 18px;
-
     background: rgba(255, 255, 255, .08);
-
     backdrop-filter: blur(18px);
-
 }
 
 thead {
-
     background: #1e3a8a;
-
 }
 
 th {
